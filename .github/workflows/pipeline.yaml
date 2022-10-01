@@ -20,11 +20,11 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # Setup Go
       - name: Setup Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
           go-version: '1.19.0' # The Go version to download (if necessary) and use.
 
@@ -49,7 +49,7 @@ jobs:
     needs: [build] # Only run this workflow when "build" workflow succeeds
     if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }} # Only run this workflow if it is main branch on push event
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # Deploy to Docker registry
       - name: Deploy to Docker registry
