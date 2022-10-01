@@ -38,7 +38,7 @@ jobs:
       - name: Run build
         run: GOARCH=amd64 GOOS=linux go build -o github-actions-linux cmd/main.go
 
-      # Run vet & lint on the code
+      # Run tests & vet on the code
       - name: Run testing
         run: go mod tidy && go test -v -race -vet=all ./...
 
@@ -53,9 +53,10 @@ jobs:
 
       # Deploy to Docker registry
       - name: Deploy to Docker registry
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v3
         with:
+          repository: ${{ secrets.DOCKER_REPOSITORY }}
+          tags: v1, latest
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: ${{ secrets.DOCKER_REPOSITORY }}
           tag_with_ref: true
