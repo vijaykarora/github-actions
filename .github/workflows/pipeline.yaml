@@ -55,8 +55,8 @@ jobs:
       - name: Deploy to Docker registry
         uses: docker/build-push-action@v3
         with:
-          image: github-actions/github-actions-image
           registry: docker.io
-          tags: v1, latest
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+          image: github-actions/github-actions-image
+          tags: v1, latest
