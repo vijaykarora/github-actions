@@ -39,14 +39,8 @@ jobs:
         run: GOARCH=amd64 GOOS=linux go build -o github-actions-linux cmd/main.go
 
       # Run vet & lint on the code
-      - name: Run vet & lint
-        run: |
-          go vet ./
-          golint ./
-
-      # Run testing on the code
       - name: Run testing
-        run: go test ./...
+        run: go mod tidy && go test -v -race -vet=all ./...
 
   # The "deploy" workflow
   deploy:
