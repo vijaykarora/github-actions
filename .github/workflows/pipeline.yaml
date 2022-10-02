@@ -70,4 +70,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.meta2.outputs.tags }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/github-actions:latest
