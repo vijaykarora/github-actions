@@ -71,3 +71,5 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/github-actions:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/github-actions:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/github-actions:buildcache,mode=max
