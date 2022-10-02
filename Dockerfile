@@ -27,7 +27,7 @@ COPY . .
 
 # Run go build to compile the binary
 # executable of our Program
-RUN CGO_ENABLED=0 GOOS=linux go build -o github-actions-linux cmd/main.go
+RUN go build -o github-actions-linux cmd/main.go
 
 # Start a new stage from scratch
 FROM alpine:latest
