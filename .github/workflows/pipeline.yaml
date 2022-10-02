@@ -69,4 +69,4 @@ jobs:
         with:
           context: .
           load: true
-          tags: vijaykarora/github-actions:latest
+          tags: github-actions/github-actions:latest
