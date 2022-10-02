@@ -68,5 +68,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          load: true
-          tags: github-actions/github-actions:latest
+          push: true
+          tags: actions/app:latest
