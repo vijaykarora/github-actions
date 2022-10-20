@@ -24,7 +24,7 @@ func NewHandler() *Handler {
 	return &Handler{
 		router: router,
 		server: &http.Server{
-			Addr:         ":3000",
+			Addr:         ":8080",
 			Handler:      router,
 			ReadTimeout:  10 * time.Second,
 			WriteTimeout: 10 * time.Second,

@@ -12,7 +12,7 @@ import (
 func main() {
 	server := router.NewHandler()
 	server.Run()
-	log.Println("server is listening on port: 3000")
+	log.Println("server is listening on port: 8080")
 
 	// Wait for interrupt signal to gracefully shut down
 	// the server with a timeout of 5 seconds.
