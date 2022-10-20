@@ -13,7 +13,8 @@ RUN adduser \
     --uid "${UID}" \
     "${USER}"
 
-RUN apt-get update && apt-get install -y ca-certificates
+RUN apt-get update; \
+    apt-get install -y ca-certificates
 
 # We now wish to execute any further commands
 # inside our /github-actions directory
