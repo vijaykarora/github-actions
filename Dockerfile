@@ -2,30 +2,29 @@
 FROM golang:1.19-alpine as builder
 
 # Add non root user
+ENV USER=appuser
+ENV UID=10001
 RUN adduser \
     --disabled-password \
     --gecos "" \
     --home "/nonexistent" \
     --shell "/sbin/nologin" \
     --no-create-home \
-    --uid "10001" \
-    "appuser"
+    --uid "${UID}" \
+    "${USER}"
 
 RUN apt-get update && apt-get install -y ca-certificates
-
-# Copy everything in the root directory
-# into our /github-actions directory
-ADD . /github-actions
 
 # We now wish to execute any further commands
 # inside our /github-actions directory
 WORKDIR /github-actions
 
+# Copy everything in the root directory
+# into our /github-actions directory
+COPY . ./
+
 # Download all dependencies. Dependencies will be cached if the go.mod and the go.sum files are not changed.
 RUN go mod tidy
-
-# Copy the source from the current directory to the working directory inside the container
-COPY . .
 
 # Run go build to compile the binary
 # executable of our Program
@@ -45,4 +44,4 @@ COPY --from=builder /github-actions /github-actions
 
 EXPOSE 8080
 
-ENTRYPOINT [ "./github-actions-linux"]
+CMD [ "./github-actions-linux"]
