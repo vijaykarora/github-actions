@@ -9,35 +9,39 @@ RUN adduser \
     --shell "/sbin/nologin" \
     --no-create-home \
     --uid "10001" \
-    "github-actions"
+    "appuser"
+
+RUN apt-get update && apt-get install -y ca-certificates
 
 # Copy everything in the root directory
-# into our /go/src/github-actions directory
-ADD . /go/src/github-actions
+# into our /github-actions directory
+ADD . /github-actions
 
 # We now wish to execute any further commands
-# inside our /go/src/github-actions directory
-WORKDIR /go/src/github-actions
+# inside our /github-actions directory
+WORKDIR /github-actions
 
-# Download all dependencies. Dependencies will be cached if the go.mod and the go.sum files are not changed
-RUN go mod download
+# Download all dependencies. Dependencies will be cached if the go.mod and the go.sum files are not changed.
+RUN go mod tidy
 
 # Copy the source from the current directory to the working directory inside the container
 COPY . .
 
 # Run go build to compile the binary
 # executable of our Program
-RUN go build -o github-actions-linux cmd/main.go
+RUN CGO_ENABLED=0 go build -o github-actions-linux cmd/main.go
 
 # Start a new stage from scratch
-FROM alpine:latest
+FROM scratch
 
-# We now wish to execute any further commands
-# inside our root directory
-WORKDIR /root/
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=builder /etc/passwd /etc/passwd
+COPY --from=builder /etc/group /etc/group
+
+USER appuser:appuser
 
 # Copy the Pre-built binary file from the previous stage
-COPY --from=builder /go/src/github-actions .
+COPY --from=builder /github-actions /github-actions
 
 EXPOSE 8080
 
